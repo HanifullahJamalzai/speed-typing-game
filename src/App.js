@@ -12,7 +12,7 @@ function App() {
 		timeRemaining,
 		handleChange,
 		wordCount,
-	] = useWordGame();
+	] = useWordGame(5);
 	return (
 		<div>
 			<h1>How fast do you type?</h1>

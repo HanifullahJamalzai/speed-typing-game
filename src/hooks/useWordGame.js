@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from "react";
 
-function useWordGame() {
+function useWordGame(startingTime = 10) {
 	const STARTING_TIME = 5;
 	const [text, setText] = useState("");
-	const [timeRemaining, setTimeRemaining] = useState(STARTING_TIME);
+	const [timeRemaining, setTimeRemaining] = useState(startingTime);
 	const [isTimeRunning, setIsTimeRunning] = useState(false);
 	const [wordCount, setWordCount] = useState(0);
 	const textBoxRef = useRef(null); // a way to access the DOM
@@ -19,7 +19,7 @@ function useWordGame() {
 	}
 
 	function startGame() {
-		setTimeRemaining(STARTING_TIME);
+		setTimeRemaining(startingTime);
 		setIsTimeRunning(true);
 		setText("");
 		textBoxRef.current.disabled = false;
