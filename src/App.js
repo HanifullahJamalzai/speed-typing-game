@@ -1,45 +1,18 @@
-import React, { useEffect, useState, useRef } from "react";
+import React from "react";
 import "./styles.css";
+import useWordGame from "./hooks/useWordGame";
 
 function App() {
-	const STARTING_TIME = 5;
-	const [text, setText] = useState("");
-	const [timeRemaining, setTimeRemaining] = useState(STARTING_TIME);
-	const [isTimeRunning, setIsTimeRunning] = useState(false);
-	const [wordCount, setWordCount] = useState(0);
-	const textBoxRef = useRef(null); // a way to access the DOM
-
-	function handleChange(e) {
-		const { value } = e.target;
-		setText(value);
-	}
-
-	function calculateWordCount(text) {
-		const wordsArr = text.trim().split(" ");
-		return wordsArr.filter((word) => word !== "").length;
-	}
-
-	function startGame() {
-		setTimeRemaining(STARTING_TIME);
-		setIsTimeRunning(true);
-		setText("");
-		textBoxRef.current.disabled = false;
-		textBoxRef.current.focus();
-	}
-	function endGame() {
-		setIsTimeRunning(false);
-		setWordCount(calculateWordCount(text));
-	}
-	useEffect(() => {
-		if (isTimeRunning && timeRemaining > 0) {
-			setTimeout(() => {
-				setTimeRemaining((time) => time - 1);
-			}, 1000);
-		} else if (timeRemaining === 0) {
-			endGame();
-		}
-	}, [timeRemaining, isTimeRunning]);
-
+	const [
+		endGame,
+		startGame,
+		text,
+		textBoxRef,
+		isTimeRunning,
+		timeRemaining,
+		handleChange,
+		wordCount,
+	] = useWordGame();
 	return (
 		<div>
 			<h1>How fast do you type?</h1>
@@ -51,8 +24,12 @@ function App() {
 				disabled={!isTimeRunning}
 			/>
 			<h4>Time remaining: {timeRemaining}</h4>
-			<button onClick={startGame} disabled={isTimeRunning}>
-				Start
+			<button
+				style={{ cursor: "pointer" }}
+				onClick={startGame}
+				disabled={isTimeRunning}
+			>
+				{wordCount ? "Play again" : "start"}
 			</button>
 			<h1>Word count: {wordCount}</h1>
 		</div>
